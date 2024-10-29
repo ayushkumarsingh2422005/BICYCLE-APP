@@ -2,6 +2,8 @@ import express from "express";
 import connectDB from "./db.js";
 import authRoute from "./routes/authRoute.js";
 import rideRoute from "./routes/rideRoute.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "../swaggerConfig.js";
 
 const app = express();
 app.use(express.json());
@@ -11,7 +13,7 @@ connectDB();
 app.get("/",(req,res)=>{
     res.send("✅ Server is running ");
 });
-
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/auth", authRoute);
 app.use("/api/ride", rideRoute);
 
