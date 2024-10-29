@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register, sendOtp, verifyOtp } from "../controllers/authController.js";
+import { login, register, resetPassword, sendOtp, verifyOtp } from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -72,6 +72,36 @@ router.post("/login", login);
  *         description: Server error.
  */
 router.post("/register", register);
+
+/**
+ * @swagger
+ * /api/auth/reset-password:
+ *   post:
+ *     summary: Reset Password
+ *     description: Resest User's password or Create new password.
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: "sonu@gmail.com"
+ *               password:
+ *                 type: string
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: Password rest successfully.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Server error.
+ */
+router.post("/reset-password", resetPassword);
 
 /**
  * @swagger
