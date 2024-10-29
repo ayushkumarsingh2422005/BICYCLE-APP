@@ -8,6 +8,10 @@ app.use(express.json());
 
 connectDB();
 
+app.get("/",(req,res)=>{
+    res.send("✅ Server is running ");
+});
+
 app.use("/api/auth", authRoute);
 app.use("/api/ride", rideRoute);
 
