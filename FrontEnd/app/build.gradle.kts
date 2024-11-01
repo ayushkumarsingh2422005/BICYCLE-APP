@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    namespace = "com.ayush.pedaller"
+    namespace = "com.innoreva.pedaller"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.ayush.pedaller"
-        minSdk = 24
+        applicationId = "com.innoreva.pedaller"
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
