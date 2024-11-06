@@ -1,6 +1,8 @@
 package com.innoreva.pedaller;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        Button loginbutton = findViewById(R.id.login_button);
+        loginbutton.setOnClickListener((view)->
+        {
+            startActivity(new Intent(MainActivity.this, MainActivity2.class));
         });
     }
 }
