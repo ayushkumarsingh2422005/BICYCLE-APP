@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F0F8FF"
-    >
+    android:orientation="vertical">
 
     <!-- Banner Section -->
     <RelativeLayout
@@ -32,11 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:paddingTop="16dp"
             android:text="BicycleRental"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="#000000"
-            android:paddingTop="16dp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tagline"
@@ -66,35 +66,35 @@
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Signup"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="#E0E0E0"
-            android:textColor="#000000"
-            android:layout_marginBottom="8dp" />
+            android:text="Signup"
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="#000000"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="16dp" />
+            android:text="Login"
+            android:textColor="#FFFFFF" />
 
         <!-- Social Media Login Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="or continue with"
-            android:textSize="16sp"
-            android:textColor="#000000"
             android:layout_gravity="center"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:text="or continue with"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:paddingTop="8dp">
 
             <ImageView
