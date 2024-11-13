@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class));
             }
         });
-
-        loginButton.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, MainActivity2.class));
+        loginbutton.setOnClickListener((view)->
+        {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
     }
 
