@@ -55,10 +55,11 @@
         android:id="@+id/btnSendOTP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send OTP"
-        android:backgroundTint="#2196F3"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#2196F3"
+        android:text="Send OTP"
+        android:visibility="gone" />
 
     <!-- OTP Field (Initially Hidden) -->
     <EditText
@@ -77,10 +78,10 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:backgroundTint="#2196F3"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:backgroundTint="#2196F3"
+        android:text="Login"
+        android:visibility="visible" />
 
 </LinearLayout>

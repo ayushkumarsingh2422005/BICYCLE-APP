@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
-    Button signup;
+    private Button signup, loginbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
             validateTokenWithServer(token);
         }
 
-        Button loginButton = findViewById(R.id.login_button);
-        Button signup = findViewById(R.id.signup_button);
+        loginbutton = findViewById(R.id.login_button);
+        signup = findViewById(R.id.signup_button);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class));
             }
         });
-        loginbutton.setOnClickListener((view)->
-        {
+        loginbutton.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
     }
@@ -66,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         executor.execute(() -> {
             boolean isValidToken = false;
+            String userData = null; // To store the response data
             try {
-                URL url = new URL("http://localhost:3000/api/profile/data");
+                URL url = new URL("http://139.84.173.61:3000/api/profile/data"); // Replace with your server URL
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -77,19 +77,36 @@ public class MainActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     // If response is OK, token is valid
                     isValidToken = true;
+
+                    // Read the response
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder responseBuilder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        responseBuilder.append(line);
+                    }
+                    userData = responseBuilder.toString(); // JSON or string data from server
+                    reader.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             boolean finalIsValidToken = isValidToken;
+            String finalUserData = userData;
             handler.post(() -> {
                 if (finalIsValidToken) {
-                    // If token is valid, navigate to MainActivity2
+                    // Save token and user data in SharedPreferences
+                    SharedPreferences sharedPreferences = getSharedPreferences("paddler", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("userData", finalUserData); // Save user data
+                    editor.apply();
+
+                    // Navigate to MainActivity2
                     startActivity(new Intent(MainActivity.this, MainActivity2.class));
                     finish();
                 } else {
-                    // Token is invalid, stay on this activity and show a message
+                    // Token is invalid or server is unreachable; show a message if needed
                     Toast.makeText(MainActivity.this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
                 }
             });
