@@ -33,7 +33,7 @@ Button signup;
         });
         loginbutton.setOnClickListener((view)->
         {
-            startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         });
     }
 }
