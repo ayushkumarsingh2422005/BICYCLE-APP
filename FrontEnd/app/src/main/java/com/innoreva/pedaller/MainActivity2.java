@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ public class MainActivity2 extends AppCompatActivity {
     BottomNavigationView bottomNav;
     HomeFragment homeFragment = new HomeFragment();
     FrameLayout frameLayout;
+    ImageButton notification;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,15 @@ public class MainActivity2 extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        notification =  findViewById(R.id.imageButton);
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new NotificationFragment())
+                        .commit();
+            }
         });
         bottomNav = findViewById(R.id.bottomNavigationView);
 
@@ -42,6 +54,18 @@ public class MainActivity2 extends AppCompatActivity {
                 if (item.getItemId() == nav_home) {
                     selectedFragment = new HomeFragment();
 
+                }
+                if(item.getItemId() == nav_lend)
+                {
+                    selectedFragment = new LendFragment();
+                }
+                if(item.getItemId() == nav_profile)
+                {
+                    selectedFragment = new ProfileFragment();
+                }
+                if(item.getItemId() == nav_book_later)
+                {
+                    selectedFragment = new BookFragment();
                 }
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction()
