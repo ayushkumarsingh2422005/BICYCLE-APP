@@ -15,8 +15,8 @@ const UserSchema = new Schema(
         hostel: { type: String, required: false },
         roomNumber: { type: String, required: false },
         currentLocation: {
-            x: { type: String, required: false },
-            y: { type: String, required: false }
+            type: { type: String, default: "Point" },
+            coordinates: { type: [Number], required: false }
         },
         email: {
             type: String,
@@ -25,7 +25,17 @@ const UserSchema = new Schema(
             match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address']
         },
         password: { type: String, required: true },
-        isDeleted: { type: Boolean, default: false }
+        isDeleted: { type: Boolean, default: false },
+        role: { type: String, enum: ["owner", "user"], default: "user" },
+        isProfileComplete: { type: Boolean, default: false },
+        isVerified: { type: Boolean, default: false },
+        ratings: [
+            {
+                rating: { type: Number, min: 1, max: 5 },
+                comment: String,
+                fromUserId: { type: Schema.Types.ObjectId, ref: "User" }
+            }
+        ]
     },
     { timestamps: true }
 );
