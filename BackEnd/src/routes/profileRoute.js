@@ -1,9 +1,17 @@
 import express from "express";
-import { getUserData } from "../controllers/userController.js";
-import {authenticateToken} from "../middleware/authMiddleware.js";
+import { authenticateToken } from "../middleware/authMiddleware.js";
+import { 
+    updateProfile, 
+    getProfileDetails,
+    getUserStats,
+    getRatingHistory 
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.get("/data",authenticateToken, getUserData);
+router.get("/details", authenticateToken, getProfileDetails);
+router.put("/update", authenticateToken, updateProfile);
+router.get("/stats", authenticateToken, getUserStats);
+router.get("/ratings", authenticateToken, getRatingHistory);
 
 export default router;
