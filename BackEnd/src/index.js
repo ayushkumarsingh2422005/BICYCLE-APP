@@ -2,6 +2,7 @@ import express from "express";
 import connectDB from "./db.js";
 import authRoute from "./routes/authRoute.js";
 import rideRoute from "./routes/rideRoute.js";
+import cycleRoute from "./routes/cycleRoute.js";
 import profileRoute from "./routes/profileRoute.js";
 import cors from "cors";
 
@@ -17,6 +18,7 @@ app.get("/",(req,res)=>{
 
 app.use("/api/auth", authRoute);
 app.use("/api/ride", rideRoute);
+app.use("/api/cycles", cycleRoute);
 app.use("/api/profile", profileRoute);
 
 app.use((err, req, res, next) => {
