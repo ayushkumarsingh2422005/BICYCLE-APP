@@ -3,27 +3,32 @@ import Cycle from "../models/Cycle.js";
 import User from "../models/User.js";
 
 export const startRide = async (req, res) => {
-    const { userId, cycleId, startLocation } = req.body;
-
-    const user = await User.findById(userId);
-    if (!user) {
-        return res.status(404).json({ message: "User not found" });
-    }
-
-    const cycle = await Cycle.findById(cycleId);
-    if (!cycle) {
-        return res.status(404).json({ message: "Cycle not found" });
-    }
-
-    if (!cycle.isAvailable) {
-        return res.status(400).json({ message: "Cycle is currently unavailable" });
-    }
+    const userId = req.userId;
+    const { cycleId, startLocation } = req.body;
 
     try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const cycle = await Cycle.findById(cycleId);
+        if (!cycle) {
+            return res.status(404).json({ message: "Cycle not found" });
+        }
+        if (!cycle.isAvailable) {
+            return res.status(400).json({ message: "Cycle is currently unavailable" });
+        }
+
+        const formattedStartLocation = {
+            x: startLocation.longitude.toString(),
+            y: startLocation.latitude.toString() 
+        };
+
         const newRide = new Ride({
             userId,
             cycleId,
-            startLocation,
+            startLocation: formattedStartLocation,
             startTime: Date.now(),
         });
 
@@ -31,13 +36,17 @@ export const startRide = async (req, res) => {
         await cycle.save();
 
         await newRide.save();
+        res.status(201).json({ 
+            message: "Ride started successfully", 
+            rideId: newRide._id 
+        });
 
-        res.status(201).json({ message: "Ride started successfully", rideId: newRide._id });
     } catch (error) {
         console.error("Start ride error:", error);
         res.status(500).json({ message: "Server error" });
     }
 };
+
 
 export const endRide = async (req, res) => {
     const { rideId, endLocation } = req.body;
