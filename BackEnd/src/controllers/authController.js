@@ -9,7 +9,7 @@ const generateToken = (id) => {
 };
 
 export const register = async (req, res) => {
-    const { username, email, password, phoneNumber, isOwner } = req.body;
+    const { username, email, password, phoneNumber } = req.body;
 
     try {
         const existingEmailUser = await User.findOne({ email });
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, userName: username, phoneNumber, password: hashedPassword, role: isOwner ? 'owner' : 'user' });
+        const newUser = new User({ email, userName: username, phoneNumber, password: hashedPassword });
         await newUser.save();
 
         const token = generateToken(newUser._id);

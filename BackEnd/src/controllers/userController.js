@@ -15,7 +15,6 @@ export const getProfileDetails = async (req, res) => {
                 'roomNumber',
                 'email',
                 'isProfileComplete',
-                'role',
                 'currentLocation'
             ]);
 
@@ -24,7 +23,7 @@ export const getProfileDetails = async (req, res) => {
         }
 
         res.status(200).json({
-            profile: {
+                id: userId,
                 userName: user.userName,
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -36,7 +35,6 @@ export const getProfileDetails = async (req, res) => {
                 isProfileComplete: user.isProfileComplete,
                 role: user.role,
                 currentLocation: user.currentLocation
-            }
         });
     } catch (error) {
         console.error("Get profile details error:", error);

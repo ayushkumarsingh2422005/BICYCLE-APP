@@ -26,7 +26,6 @@ const UserSchema = new Schema(
         },
         password: { type: String, required: true },
         isDeleted: { type: Boolean, default: false },
-        role: { type: String, enum: ["owner", "user"], default: "user" },
         isProfileComplete: { type: Boolean, default: false },
         isVerified: { type: Boolean, default: false },
         ratings: [

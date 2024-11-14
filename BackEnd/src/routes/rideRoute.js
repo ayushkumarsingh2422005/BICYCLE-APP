@@ -1,13 +1,16 @@
 import express from "express";
 import { authenticateToken } from "../middleware/authMiddleware.js";
-import { startRide, endRide, getRideDetails, getUserRides, getAllActiveRides } from "../controllers/rideController.js";
+import { requestRide,ridesNotification,acceptRide, endRide, getRideDetails, getUserRides, getAllActiveRides, declineRide } from "../controllers/rideController.js";
 
 const router = express.Router();
 
-router.post("/start",authenticateToken, startRide);
-router.post("/end", endRide);
+router.post("/request",authenticateToken, requestRide);
+router.get("/notifications",authenticateToken, ridesNotification);
+router.post("/accept",authenticateToken, acceptRide);
+router.post("/decline",authenticateToken, declineRide);
+router.post("/end",authenticateToken, endRide);
 router.get("/active", getAllActiveRides);
+router.get("/user-rides",authenticateToken, getUserRides);
 router.get("/:rideId", getRideDetails);
-router.get("/user/:userId", getUserRides);
 
 export default router;
