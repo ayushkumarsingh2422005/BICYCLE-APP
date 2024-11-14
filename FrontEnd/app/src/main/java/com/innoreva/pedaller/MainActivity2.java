@@ -35,15 +35,7 @@ public class MainActivity2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        notification =  findViewById(R.id.imageButton);
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new NotificationFragment())
-                        .commit();
-            }
-        });
+
         bottomNav = findViewById(R.id.bottomNavigationView);
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -63,9 +55,9 @@ public class MainActivity2 extends AppCompatActivity {
                 {
                     selectedFragment = new ProfileFragment();
                 }
-                if(item.getItemId() == nav_book_later)
+                if(item.getItemId() == nav_notifications)
                 {
-                    selectedFragment = new BookFragment();
+                    selectedFragment = new NotificationFragment();
                 }
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction()
