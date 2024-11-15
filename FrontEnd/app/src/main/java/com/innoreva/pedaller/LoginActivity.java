@@ -1,5 +1,7 @@
 package com.innoreva.pedaller;
 
+import static com.innoreva.pedaller.constents.Constents.BASE_URL;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private OkHttpClient client;
 
-    private static final String LOGIN_URL = "http://139.84.173.61:3000/api/auth/login";
-    private static final String PREFS_NAME = "MyPrefs";
+    private static final String LOGIN_URL = BASE_URL+"/api/auth/login";
+    private static final String PREFS_NAME = "paddler";
     private static final String TOKEN_KEY = "token";
 
     @Override

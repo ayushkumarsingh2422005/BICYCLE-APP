@@ -24,27 +24,17 @@
 
         <!-- Name -->
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextModelName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="#F3F8A2"
             android:fontFamily="@font/alatsi"
-            android:hint="Name"
+            android:hint="Model name"
             android:padding="10dp"
             android:textColorHint="#626262" />
 
         <!-- Registration Number -->
-        <EditText
-            android:id="@+id/editTextRegistrationNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:background="#F3F8A2"
-            android:fontFamily="@font/alatsi"
-            android:hint="Registration number"
-            android:padding="10dp"
-            android:textColorHint="#626262" />
 
         <!-- Time Slot -->
         <EditText
@@ -68,7 +58,7 @@
 
         <!-- Describe Location -->
         <EditText
-            android:id="@+id/editTextLocationDescription"
+            android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -80,13 +70,13 @@
 
         <!-- Phone Number -->
         <EditText
-            android:id="@+id/editTextPhoneNumber"
+            android:id="@+id/editTextHourlyRate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="#F3F8A2"
             android:fontFamily="@font/alatsi"
-            android:hint="Phone number"
+            android:hint="Hourly Rate"
             android:inputType="phone"
             android:padding="10dp"
             android:textColorHint="#626262" />
@@ -103,15 +93,6 @@
             android:layout_marginBottom="20dp" />
 
         <!-- Post Button -->
-        <Button
-            android:id="@+id/buttonPost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Post"
-            android:textAllCaps="false"
-            android:backgroundTint="#007BFF"
-            android:textColor="#FFFFFF"
-            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 </ScrollView>

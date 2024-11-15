@@ -1,5 +1,9 @@
 package com.innoreva.pedaller;
 
+//package com.innoreva.pedaller;
+
+import static com.innoreva.pedaller.constents.Constents.BASE_URL;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +25,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+// Import for OkHttp (if switching to OkHttp for network requests)
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private Button signup, loginbutton;
@@ -60,56 +72,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validateTokenWithServer(String token) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(BASE_URL+"/api/profile/details") // Your server URL
+                .addHeader("Authorization", "Bearer " + token)
+                .get()
+                .build();
 
-        executor.execute(() -> {
-            boolean isValidToken = false;
-            String userData = null; // To store the response data
-            try {
-                URL url = new URL("http://139.84.173.61:3000/api/profile/data"); // Replace with your server URL
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Authorization", "Bearer " + token);
-                connection.connect();
-
-                int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // If response is OK, token is valid
-                    isValidToken = true;
-
-                    // Read the response
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    StringBuilder responseBuilder = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        responseBuilder.append(line);
-                    }
-                    userData = responseBuilder.toString(); // JSON or string data from server
-                    reader.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() ->
+                        Toast.makeText(MainActivity.this, "Network error, please try again.", Toast.LENGTH_SHORT).show()
+                );
             }
 
-            boolean finalIsValidToken = isValidToken;
-            String finalUserData = userData;
-            handler.post(() -> {
-                if (finalIsValidToken) {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // Token is valid
+                    String userData = response.body().string();
+
                     // Save token and user data in SharedPreferences
                     SharedPreferences sharedPreferences = getSharedPreferences("paddler", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("userData", finalUserData); // Save user data
+                    editor.putString("userData", userData);
                     editor.apply();
 
                     // Navigate to MainActivity2
-                    startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                    finish();
+                    runOnUiThread(() -> {
+                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
+                        finish();
+                    });
                 } else {
-                    // Token is invalid or server is unreachable; show a message if needed
-                    Toast.makeText(MainActivity.this, "Please log in to continue.", Toast.LENGTH_SHORT).show();
+                    // Invalid token, show login prompt
+                    runOnUiThread(() ->
+                            Toast.makeText(MainActivity.this, "Please log in to continue.", Toast.LENGTH_SHORT).show()
+                    );
                 }
-            });
+            }
         });
     }
+
+
 }

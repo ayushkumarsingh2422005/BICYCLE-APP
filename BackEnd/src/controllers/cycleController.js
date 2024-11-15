@@ -1,7 +1,7 @@
 import Cycle from "../models/Cycle.js";
 
 export const addCycle = async (req, res) => {
-    const { model, hourlyRate } = req.body;
+    const { model, hourlyRate, location } = req.body;
     const ownerId = req.userId;
 
     try {
@@ -9,7 +9,8 @@ export const addCycle = async (req, res) => {
             ownerId,
             model,
             hourlyRate,
-            isAvailable: true
+            isAvailable: true,
+            location
         });
 
         await newCycle.save();

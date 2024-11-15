@@ -321,5 +321,12 @@
             android:layout_height="1dp"
             android:background="#000000" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/signout"
+            android:layout_width="294dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="SignOut" />
     </LinearLayout>
 </ScrollView>

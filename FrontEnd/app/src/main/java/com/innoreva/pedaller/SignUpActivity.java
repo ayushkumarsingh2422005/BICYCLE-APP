@@ -1,5 +1,7 @@
 package com.innoreva.pedaller;
 
+import static com.innoreva.pedaller.constents.Constents.BASE_URL;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -78,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             try {
-                URL url = new URL("http://139.84.173.61:3000/api/auth/register");
+                URL url = new URL(BASE_URL+"/api/auth/register");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");

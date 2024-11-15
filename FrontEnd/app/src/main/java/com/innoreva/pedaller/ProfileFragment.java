@@ -1,9 +1,13 @@
 package com.innoreva.pedaller;
 
+import static com.innoreva.pedaller.constents.Constents.BASE_URL;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +28,7 @@ import okhttp3.Response;
 public class ProfileFragment extends Fragment {
 
     private TextView name, phone, email, dob, member_since;
+    Button signOut;
     private OkHttpClient client;
 
     public ProfileFragment() {
@@ -47,14 +52,18 @@ public class ProfileFragment extends Fragment {
         email = view.findViewById(R.id.tv_email);
         dob = view.findViewById(R.id.tv_dob); // If DOB is part of the profile
         member_since = view.findViewById(R.id.tv_member_since);
+        signOut = view.findViewById(R.id.signout);
 
         fetchProfileData();
+
+        // Set up sign-out button to clear SharedPreferences and return to main activity
+        signOut.setOnClickListener(v -> signOutAndReturnToMainActivity());
 
         return view;
     }
 
     private void fetchProfileData() {
-        String url = "http://139.84.173.61:3000/api/profile/data";
+        String url = BASE_URL + "/api/profile/details";
         Request request = new Request.Builder()
                 .url(url)
                 .header("Authorization", "Bearer " + getToken()) // Replace with the actual token
@@ -85,11 +94,22 @@ public class ProfileFragment extends Fragment {
 
     private void updateUI(JSONObject json) {
         try {
-            name.setText(json.getString("userName"));
-            phone.setText(json.getString("phoneNumber"));
-            email.setText(json.getString("email"));
-            member_since.setText(json.getString("createdAt").split("T")[0]); // Format the date as needed
-            // If there are other fields like dob, handle them here as well
+            // Access the "profile" object within the main JSON object
+            JSONObject profile = json.getJSONObject("profile");
+
+            // Set text fields with values from the "profile" object
+            name.setText(profile.getString("userName"));
+            phone.setText(profile.getString("phoneNumber"));
+            email.setText(profile.getString("email"));
+
+            // Optional: check if "createdAt" is available and handle it as necessary
+            if (profile.has("createdAt")) {
+                member_since.setText(profile.getString("createdAt").split("T")[0]); // Format the date as needed
+            } else {
+                member_since.setText("N/A"); // Or set a default value if "createdAt" is missing
+            }
+
+            // If there are other fields like dob, handle them similarly
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -100,5 +120,18 @@ public class ProfileFragment extends Fragment {
         return getActivity()
                 .getSharedPreferences("paddler", getActivity().MODE_PRIVATE)
                 .getString("token", "");
+    }
+
+    private void signOutAndReturnToMainActivity() {
+        // Clear SharedPreferences
+        getActivity().getSharedPreferences("paddler", getActivity().MODE_PRIVATE)
+                .edit()
+                .clear()
+                .apply();
+
+        // Redirect to the main activity
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();  // Close the current activity (ProfileFragment)
     }
 }

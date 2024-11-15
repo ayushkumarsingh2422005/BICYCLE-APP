@@ -5,7 +5,8 @@ const CycleSchema = new Schema(
         ownerId: { type: Schema.Types.ObjectId, ref: "User", required: true },
         hourlyRate: { type: Number, required: true, default: 10 },
         model: { type: String, required: true },
-        isAvailable: { type: Boolean, default: true }
+        isAvailable: { type: Boolean, default: true },
+        location: { type: String, required: true}
     },
     { timestamps: true }
 );
